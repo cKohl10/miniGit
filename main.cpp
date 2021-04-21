@@ -15,6 +15,10 @@ int main()
     cin >> beginOption;
     if (beginOption != "y" || beginOption != "Y") return 0;
 
+    //Initialize repository
+    Master master;
+    master.init();
+
     while(option != 5)
     {
         menu();
