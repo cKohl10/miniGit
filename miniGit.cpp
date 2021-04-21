@@ -49,5 +49,5 @@ void Master::checkout()
 }
 bool Master::commit()
 {
-
+    return false;
 }
