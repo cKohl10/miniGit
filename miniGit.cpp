@@ -13,7 +13,9 @@ Master::~Master()
 
 void Master::init()
 {
-
+    fs::create_directory(".minigit");
+    doublyNode * node = new doublyNode;
+    commitHead = node;
 }
 void Master::add()
 {
