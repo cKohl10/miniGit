@@ -14,6 +14,7 @@ int main()
     cout << "Create an new repository in the current directory? (y/n)" << endl;
     cin >> beginOption;
     if (beginOption != "y" || beginOption != "Y") return 0;
+    fs::create_directory(".minigit");
 
     while(option != 5)
     {
