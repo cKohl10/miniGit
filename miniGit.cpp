@@ -8,14 +8,14 @@ Master::Master()
 }
 Master::~Master()
 {
-    
+    doublyNode * node = new doublyNode;
+    commitHead = node;
+    node->head = nullptr;
 }
 
 void Master::init()
 {
     fs::create_directory(".minigit");
-    doublyNode * node = new doublyNode;
-    commitHead = node;
 }
 void Master::add()
 {
@@ -47,7 +47,7 @@ void Master::checkout()
 {
 
 }
-void Master::commit()
+bool Master::commit()
 {
 
 }
