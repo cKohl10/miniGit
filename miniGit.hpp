@@ -21,7 +21,16 @@ struct doublyNode
 };
 
 class Master{
+    private:
+        doublyNode* commitHead;
 
+    public: 
+        //The folowing functions are just shells
+        //They may need more arguments or change of type from void
+        void add();
+        void remove();
+        void checkout();
+        void commit();
 };
 
 #endif
