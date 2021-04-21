@@ -33,7 +33,7 @@ class Master{
         void add();
         void remove(string filename);
         void checkout();
-        void commit();
+        bool commit();
 };
 
 #endif

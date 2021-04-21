@@ -15,6 +15,10 @@ int main()
     cin >> beginOption;
     if (beginOption != "y" || beginOption != "Y") return 0;
 
+    //Initialize repository
+    Master master;
+    master.init();
+
     while(option != 5)
     {
         menu();
@@ -27,16 +31,20 @@ int main()
             cout << "Enter filename to be committed: ";
             cin >> filename;
             // call function to add file to repository
+            master.add(filename);
             break;
 
         case 2:
             cout << "Enter filename to be removed from current commit: ";
             cin >> filename;
+            master.remove(filename);
             break;
 
         case 3:
             //function to commit changes
-            cout << "Changes successfully committed" << endl;
+            if (master.commit()){
+                cout << "Changes successfully committed" << endl;
+            } else cout << "Commit unsuccessful" << endl;
             // probably need to print out commit number 
             break;
 
