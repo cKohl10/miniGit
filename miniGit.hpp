@@ -2,7 +2,9 @@
 #define MINIGIT_H
 
 #include <iostream>
+#include <filesystem>
 using namespace std;
+namespace fs = filesystem;
 
 struct singlyNode{
     string fileName;
@@ -16,6 +18,10 @@ struct doublyNode
     singlyNode * head;
     doublyNode * previous;
     doublyNode * next;
+};
+
+class Master{
+
 };
 
 #endif
