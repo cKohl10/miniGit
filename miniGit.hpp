@@ -27,6 +27,8 @@ class Master{
     public: 
         //The folowing functions are just shells
         //They may need more arguments or change of type from void
+        Master();
+        ~Master();
         void init();
         void add();
         void remove();

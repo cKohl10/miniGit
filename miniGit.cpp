@@ -2,6 +2,15 @@
 
 using namespace std;
 
+Master::Master()
+{
+
+}
+Master::~Master()
+{
+    
+}
+
 void Master::init()
 {
 
@@ -20,5 +29,5 @@ void Master::checkout()
 }
 void Master::commit()
 {
-    
+
 }
