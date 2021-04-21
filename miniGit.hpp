@@ -4,7 +4,7 @@
 #include <iostream>
 #include <filesystem>
 using namespace std;
-namespace fs = filesystem;
+namespace fs = filesystem
 
 struct singlyNode{
     string fileName;
@@ -31,7 +31,7 @@ class Master{
         ~Master();
         void init();
         void add();
-        void remove();
+        void remove(string filename);
         void checkout();
         void commit();
 };
