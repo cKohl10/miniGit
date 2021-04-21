@@ -1,12 +1,19 @@
 #include "miniGit.hpp"
+#include <iostream>
 
 void menu();
 
 int main()
 {
-    int option = 0;
     string filename;
+    string beginOption;
     int commitNum;
+    int option = 0;
+
+    //Will ask if the user wants to create a new repostory in current directory
+    cout << "Create an new repository in the current directory? (y/n)" << endl;
+    cin >> beginOption;
+    if (beginOption != "y" || beginOption != "Y") return 0;
 
     while(option != 5)
     {
