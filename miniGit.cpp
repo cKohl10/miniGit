@@ -8,46 +8,65 @@ Master::Master()
 }
 Master::~Master()
 {
-    doublyNode * node = new doublyNode;
-    commitHead = node;
-    node->head = nullptr;
+    
 }
-
 void Master::init()
 {
-    fs::create_directory(".minigit");
-}
-void Master::add()
-{
 
 }
-void Master::remove(string filename)
-{
-    singlyNode* ptrToDelete = commitHead->head; //pointer to traverse is equal to the head of the singly linked list
-    singlyNode* prev = NULL;
-    bool found = false;
-    while (ptrToDelete != NULL)
+void Master::add(string filename) //need to add a pointer to 
+{   
+    if(!fs::exists(filename)) // checks to see if the file is in the current directory
     {
-        if (ptrToDelete->fileName == filename)
+        while(!fs::exists(filename)) // if the file isnt in the current respository makes user enter valid filename 
         {
-            found = true;
-            break;
+            cout << "Invalid file name, please try again." << endl;
+            cout <<"Filename: ";
+            cin >> filename;
         }
-        prev = ptrToDelete;
-        ptrToDelete = ptrToDelete->next;
     }
-    if (found == true) //if the file has been found
+
+    singlyNode* temp;
+    singlyNode* prev = NULL;
+
+    while(temp != NULL)
     {
-        prev->next = ptrToDelete->next;
-        delete ptrToDelete;
+        if(temp->fileName == filename)
+        {
+            cout << "File has already been added" << endl;
+            return;
+        }
+        prev = temp;
+        temp = temp->next;
     }
+
+    singlyNode* newFile = new singlyNode;
+
+    prev->next = newFile;
+    newFile->fileName = filename;
+    newFile->next = NULL;
+
+    string versionNum;
+
+    cout << "Enter file version number: ";
+    cin >> versionNum;
+
+    string versionBase = filename.substr(0, filename.length() - 6);
+    string fileType = filename.substr(filename.length()-3, 3);
+
+    newFile->fileVersion = versionBase + versionNum + "." + fileType;
     
+    return;
+}
+void Master::remove()
+{
+
 }
 void Master::checkout()
 {
 
 }
-bool Master::commit()
+void Master::commit()
 {
-    return false;
+
 }
