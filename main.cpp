@@ -5,6 +5,7 @@ void menu();
 
 int main()
 {
+    int vari;
     string filename;
     string beginOption;
     int commitNum;
