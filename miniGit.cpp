@@ -43,8 +43,37 @@ void Master::remove(string filename)
     }
     
 }
-void Master::checkout()
+void Master::checkout(int commitNumber)
 {
+    doublyNode* ptrToCommit = commitHead;
+    while (ptrToCommit != NULL) //while loop to find the commit
+    {
+        if(ptrToCommit->commitNumber == commitNumber)
+        {
+            cout << "Found commit" << endl;
+            break;
+        }
+        ptrToCommit = ptrToCommit->next;
+    }
+    if (ptrToCommit == NULL)
+    {
+        cout << "Commit number not found" << endl;
+        return;
+    }
+    cout << "WARNING: you will loose your local changes if you checkout a different version beforemaking a commit with your current local changes." << endl;
+    cout << "Would you like to continue (y/n)";
+    char option = getchar();
+    if (option == 'y' || 'Y')
+    {
+        commitHead->next = ptrToCommit; //makes the top point to the checkout commit
+        ptrToCommit->previous = commitHead; //doubly links it
+        ptrToCommit->next = NULL;
+        commitHead = ptrToCommit; //make the new commit head our checkout commit
+    }
+    else
+    {
+        return; //if they don't want to continue then return
+    }
 
 }
 bool Master::commit()

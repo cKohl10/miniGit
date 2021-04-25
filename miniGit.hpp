@@ -32,7 +32,7 @@ class Master{
         void init();
         void add();
         void remove();
-        void checkout();
+        void checkout(int commitNumber);
         bool commit();
 };
 
