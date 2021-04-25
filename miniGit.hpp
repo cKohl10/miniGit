@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <filesystem>
+#include <string>
 using namespace std;
 namespace fs = filesystem;
 
@@ -30,10 +31,10 @@ class Master{
         Master();
         ~Master();
         void init();
-        void add();
+        void add(string filename);
         void remove();
         void checkout();
-        bool commit();
+        void commit();
 };
 
 #endif
