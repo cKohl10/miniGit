@@ -22,7 +22,7 @@ struct doublyNode
 
 class Master{
     private:
-        doublyNode* commitHead;
+        doublyNode* commitHead; //current directory
 
     public: 
         //The folowing functions are just shells
@@ -31,8 +31,8 @@ class Master{
         ~Master();
         void init();
         void add();
-        void remove();
-        void checkout();
+        void remove(string filename);
+        void checkout(int commitNumber);
         bool commit();
 };
 
