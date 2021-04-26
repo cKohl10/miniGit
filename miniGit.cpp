@@ -12,15 +12,9 @@ Master::~Master()
 }
 void Master::init()
 {
-<<<<<<< HEAD
     fs::create_directory(".minigit");
 }
-void Master::add()
-{ 
-=======
->>>>>>> addBranch
 
-}
 void Master::add(string filename) //need to add a pointer to 
 {   
     if(!fs::exists(filename)) // checks to see if the file is in the current directory
@@ -65,9 +59,27 @@ void Master::add(string filename) //need to add a pointer to
     
     return;
 }
-void Master::remove()
+void Master::remove(string filename)
 {
-
+    singlyNode* ptrToDelete = commitHead->head; //pointer to traverse is equal to the head of the singly linked list
+    singlyNode* prev = NULL;
+    bool found = false;
+    while (ptrToDelete != NULL)
+    {
+        if (ptrToDelete->fileName == filename)
+        {
+            found = true;
+            break;
+        }
+        prev = ptrToDelete;
+        ptrToDelete = ptrToDelete->next;
+    }
+    if (found == true) //if the file has been found
+    {
+        prev->next = ptrToDelete->next;
+        delete ptrToDelete;
+    }
+    
 }
 void Master::checkout(int commitNumber)
 {
@@ -113,7 +125,6 @@ string file2string(string filename){
     }
     return line;
 }
-<<<<<<< HEAD
 
 bool wasChanged(string f1, string f2){
     if (f1 == f2) return false;
@@ -181,9 +192,4 @@ bool Master::commit()
 
     if (!numChanges) return false;
     return true;
-=======
-void Master::commit()
-{
-
->>>>>>> addBranch
 }
