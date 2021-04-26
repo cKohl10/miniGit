@@ -18,7 +18,7 @@ void Master::init()
     fs::create_directory(".minigit");
 }
 void Master::add()
-{
+{ 
 
 }
 void Master::remove(string filename)
@@ -43,39 +43,59 @@ void Master::remove(string filename)
     }
     
 }
-void Master::checkout(int commitNumber)
+void Master::checkout()
 {
-    doublyNode* ptrToCommit = commitHead;
-    while (ptrToCommit != NULL) //while loop to find the commit we want to return to
-    {
-        if(ptrToCommit->commitNumber == commitNumber)
-        {
-            cout << "Found commit" << endl;
-            break;
-        }
-        ptrToCommit = ptrToCommit->next;
-    }
-    if (ptrToCommit == NULL)
-    {
-        cout << "Commit number not found" << endl;
-        return;
-    }
-    cout << "WARNING: you will loose your local changes if you checkout a different version beforemaking a commit with your current local changes." << endl;
-    cout << "Would you like to continue (y/n)";
-    char option = getchar();
-    if (option == 'y' || 'Y')
-    {
-        commitHead->next = ptrToCommit; //makes the top point to the checkout commit
-        ptrToCommit->previous = commitHead; //doubly links it
-        ptrToCommit->next = NULL;
-        commitHead = ptrToCommit; //make the new commit head our checkout commit
-    }
-    else
-    {
-        return; //if they don't want to continue then return
-    }
+
 }
+
+string file2string(string filename){
+    string word;
+    string line = "";
+    ifstream file_r(filename);
+
+    while (file_r >> word){
+        line = line + word;
+    }
+    return line;
+}
+
+bool wasChanged(string f1, string f2){
+    if (f1 == f2) return false;
+    return true;
+}
+
 bool Master::commit()
-{
+{  
+    //Traverse every SLL node
+    singlyNode* currNode = commitHead->head;
+    while (currNode){
+        //Check if file version exists already
+        if (!fs::exists("/miniGit" + currNode->fileName + currNode->fileVersion)){
+
+            //If it does not exists, make a copy in the correct directory
+            if(fs::copy_file(currNode->fileName, "/miniGit" + currNode->fileName + currNode->fileVersion)){
+                cout << "Copied file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
+            } else {
+                cout << "Failed to copy " << currNode->fileName + currNode->fileVersion << endl;
+            }
+        } else {
+
+            //Check if both versions are the same or not
+            if (wasChanged(file2string(currNode->fileName), file2string("/miniGit" + currNode->fileName + currNode->fileVersion))){
+                
+                //If the file was changed, increment version number
+                currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
+                if(fs::copy_file(currNode->fileName, "/miniGit" + currNode->fileName + currNode->fileVersion)){
+                    cout << "Created file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
+                } else {
+                    cout << "Failed to create new version " << currNode->fileName + currNode->fileVersion << endl;
+                }
+
+            }
+        }
+
+    }
+
+    
     return false;
 }
