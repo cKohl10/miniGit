@@ -72,10 +72,10 @@ bool Master::commit()
     singlyNode* currNode = commitHead->head;
     while (currNode){
         //Check if file version exists already
-        if (!fs::exists("/miniGit" + currNode->fileName + currNode->fileVersion)){
+        if (!fs::exists("/.miniGit" + currNode->fileName + currNode->fileVersion)){
 
             //If it does not exists, make a copy in the correct directory
-            if(fs::copy_file(currNode->fileName, "/miniGit" + currNode->fileName + currNode->fileVersion)){
+            if(fs::copy_file(currNode->fileName, "/.miniGit" + currNode->fileName + currNode->fileVersion)){
                 cout << "Copied file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
             } else {
                 cout << "Failed to copy " << currNode->fileName + currNode->fileVersion << endl;
@@ -84,11 +84,11 @@ bool Master::commit()
         } else {
 
             //Check if both versions are the same or not
-            if (wasChanged(file2string(currNode->fileName), file2string("/miniGit" + currNode->fileName + currNode->fileVersion))){
+            if (wasChanged(file2string(currNode->fileName), file2string("/.miniGit" + currNode->fileName + currNode->fileVersion))){
                 
                 //If the file was changed, increment version number
                 currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
-                if(fs::copy_file(currNode->fileName, "/miniGit" + currNode->fileName + currNode->fileVersion)){
+                if(fs::copy_file(currNode->fileName, "/.miniGit" + currNode->fileName + currNode->fileVersion)){
                     cout << "Created file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
                 } else {
                     cout << "Failed to create new version " << currNode->fileName + currNode->fileVersion << endl;
