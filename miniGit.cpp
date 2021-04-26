@@ -66,6 +66,8 @@ bool wasChanged(string f1, string f2){
 
 bool Master::commit()
 {  
+    int numChanges = 0;
+
     //Traverse every SLL node
     singlyNode* currNode = commitHead->head;
     while (currNode){
@@ -78,6 +80,7 @@ bool Master::commit()
             } else {
                 cout << "Failed to copy " << currNode->fileName + currNode->fileVersion << endl;
             }
+            numChanges++;
         } else {
 
             //Check if both versions are the same or not
@@ -90,12 +93,36 @@ bool Master::commit()
                 } else {
                     cout << "Failed to create new version " << currNode->fileName + currNode->fileVersion << endl;
                 }
+                numChanges++;
 
             }
         }
 
     }
 
+    //Create new DLL node and copy SLL nodes to the new node
+    doublyNode* newCommit = new doublyNode;
+    commitHead->next = newCommit;
+    newCommit->previous = commitHead;
+    commitHead = newCommit;
     
-    return false;
+    //Start SLL node list at prevCommit head
+    singlyNode* oldNode = commitHead->previous->head;
+    singlyNode* prev;
+
+    //Copy every node into new commit node
+    while (oldNode){
+        singlyNode* nn = new singlyNode;
+        nn->fileName = oldNode->fileName;
+        nn->fileVersion = oldNode->fileVersion;
+
+        //Check if it's the first SLL node in the commit
+        if (!prev) commitHead->head = nn;
+        else prev->next = nn;
+        prev = nn;
+        oldNode = oldNode->next;
+    }
+
+    if (!numChanges) return false;
+    return true;
 }
