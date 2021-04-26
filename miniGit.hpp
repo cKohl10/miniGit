@@ -32,10 +32,10 @@ class Master{
         Master();
         ~Master();
         void init();
-        void add();
         void remove(string filename);
         void checkout(int commitNumber);
         bool commit();
+        void add(string filename);
 };
 
 #endif
