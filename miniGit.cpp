@@ -126,7 +126,7 @@ void Master::checkout(int commitNumber)
         return;
     }
     cout << "WARNING: you will loose your local changes if you checkout a different version beforemaking a commit with your current local changes." << endl;
-    cout << "Would you like to continue (y/n)";
+    cout << "Would you like to continue with commit number: " << ptrToCommit->commitNumber << " (y/n)";
     char option = getchar();
     if (option == 'y' || 'Y')
     {
