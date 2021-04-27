@@ -3,6 +3,8 @@
 
 void menu();
 
+void status();
+
 int main()
 {
     int vari;
@@ -46,7 +48,7 @@ int main()
             //function to commit changes
             if (master.commit()){
                 cout << "Changes successfully committed" << endl;
-            } else cout << "Commit unsuccessful" << endl;
+            } else cout << "Commit unsuccessful - Commit may be identical to previous commit" << endl;
             // probably need to print out commit number 
             break;
 
@@ -59,6 +61,7 @@ int main()
         case '5':
             // probably need to make sure all changes are commited before quitting.
             cout << "Goodbye!" << endl;
+            fs::remove_all(".minigit");
             return 0;
             break;
         

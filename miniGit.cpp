@@ -37,7 +37,6 @@ void Master::add(string filename) //need to add a pointer to
             cin >> filename;
         }
     }
-    //--------------------------------------------------------------------------------
 
     singlyNode* temp = commitHead->head;
     singlyNode* prev = NULL;
@@ -64,6 +63,7 @@ void Master::add(string filename) //need to add a pointer to
     cout << "File has been added" << endl;
     
     return;
+    //--------------------------------------------------------------------------------
 }
 void Master::remove(string filename)
 {
@@ -137,19 +137,56 @@ bool wasChanged(string f1, string f2){
     return true;
 }
 
-string filenameConvert(string header, string filename, string fileVersion){
+string filenameConvert(string header, string filename, string fileVersion, bool showHeader){
     //This function constructs the correct filename to search for
 
     string filenameHead = "";
     string filenameFoot = "";
     bool dotFound = false;
-    for (int i = 0; i < filename.size(), i++){
+
+    //Splits the filename and type up to correctly make the name
+    for (int i = 0; i < filename.size(); i++){
         if(filename[i] == '.') dotFound = true;
         else if(!dotFound) filenameHead += filename[i];
         else filenameFoot += filename[i];
     }
 
-    return header + filenameHead + fileVersion + "." + filenameFoot;
+    if (showHeader) return header + filenameHead + "_" + fileVersion + "." + filenameFoot;
+    else return filenameHead + "_" + fileVersion + "." + filenameFoot;
+}
+
+bool fileCopy(string source, string dest){
+    //Create a new write-to file and duplicate the contents of source to this new file
+    //This is created using buffers
+
+    ifstream file_in(source);
+    //Check if source file is open
+    if (!file_in.is_open()){
+        cout << "Could not open file: " << source << endl;
+        return false;
+    }
+    ofstream file_out(dest);
+    if (!file_out.is_open()){
+        cout << "Could not open file: " << dest << endl;
+        return false;
+    }
+    filebuf* inbuf  = file_in.rdbuf();
+    filebuf* outbuf = file_out.rdbuf();
+
+    //Start current pointer to char on the first value of the file
+    char currentChar = inbuf->sbumpc();
+
+    //This code works by incrementing a pointer at each character up in both files until fully copied
+    int endOfFile = EOF;
+    while (currentChar != endOfFile)
+    {
+        outbuf->sputc(currentChar);
+        currentChar = inbuf->sbumpc();
+    }
+
+    file_in.close();
+    file_out.close();
+    return true;
 }
 
 bool Master::commit()
@@ -158,18 +195,18 @@ bool Master::commit()
 
     //Traverse every SLL node
     singlyNode* currNode = commitHead->head;
-    while (currNode){
+    while (currNode != NULL){
         //Construct the fileName to find
-        string file2find = filenameConvert("/.minigit/", currNode->fileName, currNode->fileVersion);
+        string file2find = filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, true);
 
         //Check if file version exists already
         if (!fs::exists(file2find)){
 
             //If it does not exists, make a copy in the correct directory
-            if(fs::copy_file(currNode->fileName, file2find)){
-                cout << "Copied file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
+            if(fileCopy(currNode->fileName, file2find)){
+                cout << "Copied file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " succesfully" << endl;
             } else {
-                cout << "Failed to copy " << currNode->fileName + currNode->fileVersion << endl;
+                cout << "Failed to copy " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << endl;
             }
             numChanges++;
         } else {
@@ -179,15 +216,16 @@ bool Master::commit()
                 
                 //If the file was changed, increment version number
                 currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
-                if(fs::copy_file(currNode->fileName, file2find)){
-                    cout << "Created file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
+                if(fileCopy(currNode->fileName, file2find)){
+                    cout << "Created file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " succesfully" << endl;
                 } else {
-                    cout << "Failed to create new version " << currNode->fileName + currNode->fileVersion << endl;
+                    cout << "Failed to create new version " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << endl;
                 }
                 numChanges++;
 
             }
         }
+        currNode = currNode->next;
 
     }
 
@@ -196,19 +234,19 @@ bool Master::commit()
     commitHead->next = newCommit;
     newCommit->previous = commitHead;
     commitHead = newCommit;
-    
+
     //Start SLL node list at prevCommit head
     singlyNode* oldNode = commitHead->previous->head;
-    singlyNode* prev;
+    singlyNode* prev = NULL;
 
     //Copy every node into new commit node
-    while (oldNode){
+    while (oldNode != NULL){
         singlyNode* nn = new singlyNode;
         nn->fileName = oldNode->fileName;
         nn->fileVersion = oldNode->fileVersion;
 
         //Check if it's the first SLL node in the commit
-        if (!prev) commitHead->head = nn;
+        if (prev == NULL) commitHead->head = nn;
         else prev->next = nn;
         prev = nn;
         oldNode = oldNode->next;
