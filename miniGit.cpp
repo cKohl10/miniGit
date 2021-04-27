@@ -10,7 +10,11 @@ in our own funciton afterwards.
 
 Master::Master()
 {
-
+    doublyNode* commitInit = new doublyNode;
+    commitHead = commitInit;
+    commitInit->head = NULL;
+    commitInit->next = NULL;
+    commitInit->previous = NULL;
 }
 Master::~Master()
 {
@@ -35,16 +39,11 @@ void Master::add(string filename) //need to add a pointer to
     }
     //--------------------------------------------------------------------------------
 
-    //Used for testing, too lazy to figure out gdb rn
-    int checkpoint = 0;
-    cout << checkpoint++ << endl;
-
     singlyNode* temp = commitHead->head;
     singlyNode* prev = NULL;
 
     while(temp != NULL)
     {
-        cout << checkpoint++ << endl;
         if(temp->fileName == filename)
         {
             cout << "File has already been added" << endl;
@@ -54,21 +53,15 @@ void Master::add(string filename) //need to add a pointer to
         temp = temp->next;
     }
 
+
     singlyNode* newFile = new singlyNode;
 
-    prev->next = newFile;
+    if (prev) prev->next = newFile;
+    else commitHead->head = newFile;
     newFile->fileName = filename;
     newFile->next = NULL;
-
-    string versionNum;
-
-    cout << "Enter file version number: ";
-    cin >> versionNum;
-
-    string versionBase = filename.substr(0, filename.length() - 6);
-    string fileType = filename.substr(filename.length()-3, 3);
-
-    newFile->fileVersion = versionBase + versionNum + "." + fileType;
+    newFile->fileVersion = "0";
+    cout << "File has been added" << endl;
     
     return;
 }
@@ -144,6 +137,21 @@ bool wasChanged(string f1, string f2){
     return true;
 }
 
+string filenameConvert(string header, string filename, string fileVersion){
+    //This function constructs the correct filename to search for
+
+    string filenameHead = "";
+    string filenameFoot = "";
+    bool dotFound = false;
+    for (int i = 0; i < filename.size(), i++){
+        if(filename[i] == '.') dotFound = true;
+        else if(!dotFound) filenameHead += filename[i];
+        else filenameFoot += filename[i];
+    }
+
+    return header + filenameHead + fileVersion + "." + filenameFoot;
+}
+
 bool Master::commit()
 {  
     int numChanges = 0;
@@ -151,11 +159,14 @@ bool Master::commit()
     //Traverse every SLL node
     singlyNode* currNode = commitHead->head;
     while (currNode){
+        //Construct the fileName to find
+        string file2find = filenameConvert("/.minigit/", currNode->fileName, currNode->fileVersion);
+
         //Check if file version exists already
-        if (!fs::exists("/.miniGit" + currNode->fileName + currNode->fileVersion)){
+        if (!fs::exists(file2find)){
 
             //If it does not exists, make a copy in the correct directory
-            if(fs::copy_file(currNode->fileName, "/.miniGit" + currNode->fileName + currNode->fileVersion)){
+            if(fs::copy_file(currNode->fileName, file2find)){
                 cout << "Copied file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
             } else {
                 cout << "Failed to copy " << currNode->fileName + currNode->fileVersion << endl;
@@ -164,11 +175,11 @@ bool Master::commit()
         } else {
 
             //Check if both versions are the same or not
-            if (wasChanged(file2string(currNode->fileName), file2string("/.miniGit" + currNode->fileName + currNode->fileVersion))){
+            if (wasChanged(file2string(currNode->fileName), file2string(file2find))){
                 
                 //If the file was changed, increment version number
                 currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
-                if(fs::copy_file(currNode->fileName, "/.miniGit" + currNode->fileName + currNode->fileVersion)){
+                if(fs::copy_file(currNode->fileName, file2find)){
                     cout << "Created file " << currNode->fileName + currNode->fileVersion << " succesfully" << endl;
                 } else {
                     cout << "Failed to create new version " << currNode->fileName + currNode->fileVersion << endl;

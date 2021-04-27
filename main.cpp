@@ -59,6 +59,7 @@ int main()
         case '5':
             // probably need to make sure all changes are commited before quitting.
             cout << "Goodbye!" << endl;
+            return 0;
             break;
         
         default:
