@@ -25,8 +25,30 @@ Master::Master()
 }
 Master::~Master()
 {
-    
+    doublyNode* curr = commitHead;
+    doublyNode* temp = NULL;
+
+    while(curr != NULL)
+    {
+        if(curr->head != NULL)
+        {
+            singlyNode* currSingly = curr->head;
+            singlyNode* tempSingly = NULL;
+
+            while(currSingly != NULL)
+            {
+                currSingly->next = tempSingly;
+                delete currSingly;
+
+                currSingly = tempSingly;
+            }
+        }
+        curr->previous = temp;
+        delete curr;
+        curr = temp;
+    }
 }
+
 void Master::init()
 {
     fs::create_directory(".minigit");
@@ -253,6 +275,23 @@ int Master::commit()
         currNode = currNode->next;
 
     }
+
+    cout << "Enter a description of the changes made. (Maximum of 100 Characters)" << endl;
+
+    string description;
+
+    bool goodLength = false;
+
+    while(!goodLength)
+    {
+        cout << "Description: ";
+        cin.ignore();
+        getline(cin, description);
+
+        if(description.length() <= 100) goodLength = true;
+    }
+
+    commitHead->message = description;
 
     //Create new DLL node and copy SLL nodes to the new node
     doublyNode* newCommit = new doublyNode;
