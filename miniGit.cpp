@@ -210,7 +210,7 @@ bool fileCopy(string source, string dest){
     return true;
 }
 
-bool Master::commit()
+int Master::commit()
 {  
     int numChanges = 0;
 
@@ -252,6 +252,7 @@ bool Master::commit()
 
     //Create new DLL node and copy SLL nodes to the new node
     doublyNode* newCommit = new doublyNode;
+    newCommit->commitNumber = commitHead->commitNumber + 1;
     commitHead->next = newCommit;
     newCommit->previous = commitHead;
     commitHead = newCommit;
@@ -273,6 +274,6 @@ bool Master::commit()
         oldNode = oldNode->next;
     }
 
-    if (!numChanges) return false;
-    return true;
+    if (!numChanges) return -1;
+    return commitHead->commitNumber;
 }
