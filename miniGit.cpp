@@ -2,6 +2,12 @@
 
 using namespace std;
 
+/*
+Current version uses fs::copy_file() which is appearantly not allowed.
+The plan is to finish the code with this function and implement it 
+in our own funciton afterwards.
+*/
+
 Master::Master()
 {
 
@@ -29,11 +35,16 @@ void Master::add(string filename) //need to add a pointer to
     }
     //--------------------------------------------------------------------------------
 
+    //Used for testing, too lazy to figure out gdb rn
+    int checkpoint = 0;
+    cout << checkpoint++ << endl;
+
     singlyNode* temp = commitHead->head;
     singlyNode* prev = NULL;
 
     while(temp != NULL)
     {
+        cout << checkpoint++ << endl;
         if(temp->fileName == filename)
         {
             cout << "File has already been added" << endl;

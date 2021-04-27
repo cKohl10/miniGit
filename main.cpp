@@ -9,7 +9,9 @@ int main()
     string filename;
     string beginOption;
     int commitNum;
-    int option = 0;
+
+    //Option changed to char to fix an infinit loop error
+    char option = '0';
 
     //Initialize repository
     Master master;
@@ -25,23 +27,22 @@ int main()
         menu();
 
         cin >> option;
-
-        switch (option)
-        {
-        case 1:
+        if (!isdigit(option)) option = '6';
+        switch (option){
+        case '1':
             cout << "Enter filename to be committed: ";
             cin >> filename;
             // call function to add file to repository
             master.add(filename);
             break;
 
-        case 2:
+        case '2':
             cout << "Enter filename to be removed from current commit: ";
             cin >> filename;
             master.remove(filename);
             break;
 
-        case 3:
+        case '3':
             //function to commit changes
             if (master.commit()){
                 cout << "Changes successfully committed" << endl;
@@ -49,13 +50,13 @@ int main()
             // probably need to print out commit number 
             break;
 
-        case 4:
+        case '4':
             cout << "Enter commit number: ";
             cin >> commitNum;
             //call function to view version for specific commit number
             break;
 
-        case 5:
+        case '5':
             // probably need to make sure all changes are commited before quitting.
             cout << "Goodbye!" << endl;
             break;
