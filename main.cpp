@@ -10,6 +10,7 @@ int main()
     string filename;
     string beginOption;
     int commitNum;
+    int commitNumOut;
 
     //Option changed to char to fix an infinit loop error
     char option = '0';
@@ -45,9 +46,9 @@ int main()
 
         case '3':
             //function to commit changes
-            int commitNum = master.commit();
-            if (master.commit()){
-                cout << "Changes successfully committed: Commit #" << commitNum << endl;
+            commitNumOut = master.commit();
+            if (commitNumOut >= 0){
+                cout << "Changes successfully committed: Commit #" << commitNumOut << endl;
             } else cout << "Commit unsuccessful - Commit may be identical to previous commit" << endl;
             // probably need to print out commit number 
             break;
