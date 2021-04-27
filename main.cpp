@@ -10,6 +10,7 @@ int main()
     string filename;
     string beginOption;
     int commitNum;
+    int commitNumOut;
 
     //Option changed to char to fix an infinit loop error
     char option = '0';
@@ -45,8 +46,9 @@ int main()
 
         case '3':
             //function to commit changes
-            if (master.commit()){
-                cout << "Changes successfully committed" << endl;
+            commitNumOut = master.commit();
+            if (commitNumOut >= 0){
+                cout << "Changes successfully committed: Commit #" << commitNumOut << endl;
             } else cout << "Commit unsuccessful - Commit may be identical to previous commit" << endl;
             // probably need to print out commit number 
             break;
@@ -54,7 +56,7 @@ int main()
         case '4':
             cout << "Enter commit number: ";
             cin >> commitNum;
-            //call function to view version for specific commit number
+            master.checkout(commitNum);
             break;
 
         case '5':
@@ -82,4 +84,8 @@ void menu()
     cout << "4. Checkout previous version of repository" << endl;
     cout << "5. Quit" << endl;
     cout << "Select option : ";
+}
+
+void status(){
+    
 }

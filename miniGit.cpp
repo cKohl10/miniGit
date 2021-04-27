@@ -140,25 +140,25 @@ void Master::checkout(int commitNumber)
             cout << "Found commit" << endl;
             break;
         }
-        ptrToCommit = ptrToCommit->next;
+        ptrToCommit = ptrToCommit->previous;
     }
     if (ptrToCommit == NULL)
     {
         cout << "Commit number not found" << endl;
         return;
     }
-    cout << "WARNING: you will loose your local changes if you checkout a different version beforemaking a commit with your current local changes." << endl;
-    cout << "Would you like to continue (y/n)";
-    char option = getchar();
+    cout << "WARNING: you will loose your local changes if you checkout to different version before making a commit with your current local changes." << endl;
+    cout << "Would you like to continue with commit number " << ptrToCommit->commitNumber << " (y/n): ";
+    char option;
+    cin >> option;
+    cout << endl;
     if (option == 'y' || 'Y')
     {
         commitHead->next = ptrToCommit; //makes the top point to the checkout commit
         ptrToCommit->previous = commitHead; //doubly links it
         ptrToCommit->next = NULL;
         commitHead = ptrToCommit; //make the new commit head our checkout commit
-
-        cout << "File Version : 00" << endl; // change this to make it dynamic
-        cout << "Description: " << commitHead->message << endl;
+        cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
     }
     else
     {
@@ -235,7 +235,7 @@ bool fileCopy(string source, string dest){
     return true;
 }
 
-bool Master::commit()
+int Master::commit()
 {  
     int numChanges = 0;
 
@@ -251,6 +251,7 @@ bool Master::commit()
             //If it does not exists, make a copy in the correct directory
             if(fileCopy(currNode->fileName, file2find)){
                 cout << "Copied file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " succesfully" << endl;
+                currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
             } else {
                 cout << "Failed to copy " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << endl;
             }
@@ -294,6 +295,7 @@ bool Master::commit()
 
     //Create new DLL node and copy SLL nodes to the new node
     doublyNode* newCommit = new doublyNode;
+    newCommit->commitNumber = commitHead->commitNumber + 1;
     commitHead->next = newCommit;
     newCommit->previous = commitHead;
     commitHead = newCommit;
@@ -315,6 +317,6 @@ bool Master::commit()
         oldNode = oldNode->next;
     }
 
-    if (!numChanges) return false;
-    return true;
+    if (!numChanges) return -1;
+    return commitHead->commitNumber;
 }
