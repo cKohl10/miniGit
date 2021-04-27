@@ -226,6 +226,7 @@ int Master::commit()
             //If it does not exists, make a copy in the correct directory
             if(fileCopy(currNode->fileName, file2find)){
                 cout << "Copied file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " succesfully" << endl;
+                currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
             } else {
                 cout << "Failed to copy " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << endl;
             }
