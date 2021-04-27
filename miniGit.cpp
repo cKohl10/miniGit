@@ -134,6 +134,7 @@ void Master::checkout(int commitNumber)
         ptrToCommit->previous = commitHead; //doubly links it
         ptrToCommit->next = NULL;
         commitHead = ptrToCommit; //make the new commit head our checkout commit
+        cout << "You have successfully checked out to commit number: " << ptrToCommit->commitNumber << endl;
     }
     else
     {
