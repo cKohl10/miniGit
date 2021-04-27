@@ -8,6 +8,13 @@ The plan is to finish the code with this function and implement it
 in our own funciton afterwards.
 */
 
+// Issues : add file, then delete file, then add it back and it says its already been added, not sure if there is way to fix that
+// adding files then deleting them then trying to commit changes
+// checkout to go to different file version then removing file is seg fault
+// checkout doesnt do very much either, should probably have an option to print out file names after you switch commit 
+// and dont know how to have doubly nodes stay between times you run it so it seems like we might only have one doublyNode.
+// for add seems like the version history needs to update and not alwasy be "0"
+
 Master::Master()
 {
     doublyNode* commitInit = new doublyNode;
@@ -70,6 +77,11 @@ void Master::remove(string filename)
     singlyNode* ptrToDelete = commitHead->head; //pointer to traverse is equal to the head of the singly linked list
     singlyNode* prev = NULL;
     bool found = false;
+
+    cout << "Head : " << ptrToDelete->fileName << endl;
+
+    cout << "1" << endl;
+    
     while (ptrToDelete != NULL)
     {
         if (ptrToDelete->fileName == filename)
@@ -80,12 +92,21 @@ void Master::remove(string filename)
         prev = ptrToDelete;
         ptrToDelete = ptrToDelete->next;
     }
+
+    cout << "2" << endl;
+
     if (found == true) //if the file has been found
     {
-        prev->next = ptrToDelete->next;
+        if(prev != NULL)
+        {
+            prev->next = ptrToDelete->next;
+        }
+
         delete ptrToDelete;
     }
     
+    cout << "3" << endl;
+
 }
 void Master::checkout(int commitNumber)
 {
