@@ -45,8 +45,9 @@ int main()
 
         case '3':
             //function to commit changes
+            int commitNum = master.commit();
             if (master.commit()){
-                cout << "Changes successfully committed" << endl;
+                cout << "Changes successfully committed: Commit #" << commitNum << endl;
             } else cout << "Commit unsuccessful - Commit may be identical to previous commit" << endl;
             // probably need to print out commit number 
             break;

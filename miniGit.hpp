@@ -34,7 +34,7 @@ class Master{
         void init();
         void remove(string filename);
         void checkout(int commitNumber);
-        bool commit();
+        int commit();
         void add(string filename);
 };
 
