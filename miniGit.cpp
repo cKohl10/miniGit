@@ -17,6 +17,7 @@ void Master::init()
 
 void Master::add(string filename) //need to add a pointer to 
 {   
+    //-------------------- This section has been tested and works --------------------
     if(!fs::exists(filename)) // checks to see if the file is in the current directory
     {
         while(!fs::exists(filename)) // if the file isnt in the current respository makes user enter valid filename 
@@ -26,8 +27,9 @@ void Master::add(string filename) //need to add a pointer to
             cin >> filename;
         }
     }
+    //--------------------------------------------------------------------------------
 
-    singlyNode* temp;
+    singlyNode* temp = commitHead->head;
     singlyNode* prev = NULL;
 
     while(temp != NULL)

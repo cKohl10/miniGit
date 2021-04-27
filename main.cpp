@@ -11,14 +11,14 @@ int main()
     int commitNum;
     int option = 0;
 
+    //Initialize repository
+    Master master;
+
     //Will ask if the user wants to create a new repostory in current directory
     cout << "Create an new repository in the current directory? (y/n)" << endl;
     cin >> beginOption;
-    if (beginOption != "y" || beginOption != "Y") return 0;
+    if (beginOption == "y" || beginOption == "Y") master.init();
 
-    //Initialize repository
-    Master master;
-    master.init();
 
     while(option != 5)
     {
