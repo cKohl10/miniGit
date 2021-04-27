@@ -16,6 +16,7 @@ struct singlyNode{
 
 struct doublyNode
 {
+    string message;
     int commitNumber;
     singlyNode * head;
     doublyNode * previous;

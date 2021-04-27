@@ -25,8 +25,30 @@ Master::Master()
 }
 Master::~Master()
 {
-    
+    doublyNode* curr = commitHead;
+    doublyNode* temp = NULL;
+
+    while(curr != NULL)
+    {
+        if(curr->head != NULL)
+        {
+            singlyNode* currSingly = curr->head;
+            singlyNode* tempSingly = NULL;
+
+            while(currSingly != NULL)
+            {
+                currSingly->next = tempSingly;
+                delete currSingly;
+
+                currSingly = tempSingly;
+            }
+        }
+        curr->previous = temp;
+        delete curr;
+        curr = temp;
+    }
 }
+
 void Master::init()
 {
     fs::create_directory(".minigit");
@@ -134,6 +156,9 @@ void Master::checkout(int commitNumber)
         ptrToCommit->previous = commitHead; //doubly links it
         ptrToCommit->next = NULL;
         commitHead = ptrToCommit; //make the new commit head our checkout commit
+
+        cout << "File Version : 00" << endl; // change this to make it dynamic
+        cout << "Description: " << commitHead->message << endl;
     }
     else
     {
@@ -249,6 +274,23 @@ bool Master::commit()
         currNode = currNode->next;
 
     }
+
+    cout << "Enter a description of the changes made. (Maximum of 100 Characters)" << endl;
+
+    string description;
+
+    bool goodLength = false;
+
+    while(!goodLength)
+    {
+        cout << "Description: ";
+        cin.ignore();
+        getline(cin, description);
+
+        if(description.length() <= 100) goodLength = true;
+    }
+
+    commitHead->message = description;
 
     //Create new DLL node and copy SLL nodes to the new node
     doublyNode* newCommit = new doublyNode;
