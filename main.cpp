@@ -56,7 +56,7 @@ int main()
         case '4':
             cout << "Enter commit number: ";
             cin >> commitNum;
-            //call function to view version for specific commit number
+            master.checkout(commitNum);
             break;
 
         case '5':
