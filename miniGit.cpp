@@ -118,7 +118,7 @@ void Master::checkout(int commitNumber)
             cout << "Found commit" << endl;
             break;
         }
-        ptrToCommit = ptrToCommit->next;
+        ptrToCommit = ptrToCommit->previous;
     }
     if (ptrToCommit == NULL)
     {
@@ -126,16 +126,17 @@ void Master::checkout(int commitNumber)
         return;
     }
     cout << "WARNING: you will loose your local changes if you checkout to different version before making a commit with your current local changes." << endl;
-    cout << "Would you like to continue with commit number: " << ptrToCommit->commitNumber << " (y/n) ";
+    cout << "Would you like to continue with commit number " << ptrToCommit->commitNumber << " (y/n): ";
     char option;
     cin >> option;
+    cout << endl;
     if (option == 'y' || 'Y')
     {
         commitHead->next = ptrToCommit; //makes the top point to the checkout commit
         ptrToCommit->previous = commitHead; //doubly links it
         ptrToCommit->next = NULL;
         commitHead = ptrToCommit; //make the new commit head our checkout commit
-        cout << "You have successfully checked out to commit number: " << ptrToCommit->commitNumber << endl;
+        cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
     }
     else
     {
