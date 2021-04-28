@@ -7,7 +7,7 @@ bool wasChanged(string f1, string f2);
 string filenameConvert(string header, string filename, string fileVersion, bool showHeader);
 bool fileCopy(string source, string dest);
 
-Master::Master()
+Master::Master() //constructor for repository
 {
     doublyNode* commitInit = new doublyNode;
     commitHead = commitInit;
@@ -16,7 +16,7 @@ Master::Master()
     commitInit->next = NULL;
     commitInit->previous = NULL;
 }
-Master::~Master()
+Master::~Master() //destructor
 {
     doublyNode* curr = commitHead;
     doublyNode* temp = NULL;
@@ -44,10 +44,10 @@ Master::~Master()
 
 void Master::init()
 {
-    fs::create_directory(".minigit");
+    fs::create_directory(".minigit"); //creates directory in file system
 }
 
-void Master::add(string filename) //need to add a pointer to 
+void Master::add(string filename) 
 {   
     //-------------------- This section has been tested and works --------------------
     if(!fs::exists(filename)) // checks to see if the file is in the current directory
@@ -93,7 +93,7 @@ bool Master::remove(string filename)
     singlyNode* prev = NULL;
     bool found = false;
     
-    while (ptrToDelete != NULL)
+    while (ptrToDelete != NULL) //search for file to delete
     {
         if (ptrToDelete->fileName == filename)
         {

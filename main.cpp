@@ -19,7 +19,7 @@ int main()
     //Will ask if the user wants to create a new repostory in current directory
     cout << "Create an new repository in the current directory? (y/n)" << endl;
     cin >> beginOption;
-    if (beginOption == "y" || beginOption == "Y") master.init();
+    if (beginOption == "y" || beginOption == "Y") master.init(); //creates new directory
 
 
     while(option != 5)
@@ -55,7 +55,7 @@ int main()
         case '4':
             cout << "Enter commit number: ";
             cin >> commitNum;
-            master.checkout(commitNum);
+            master.checkout(commitNum); //returns to previous DL node with commit number parameter
             break;
 
         case '5':
