@@ -173,6 +173,8 @@ void Master::checkout(int commitNumber)
 
     cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
 
+    cout << "Version Description: " << ptrToCommit->message << endl;
+
 }
 
 string file2string(string filename){
