@@ -1,4 +1,7 @@
 # miniGit
+CSCI 2270
+Authors: Aidan Bagley, Henry Dyer, Carson Kolhbrenner
+
 Mini git program with basic features.
 
 Basic Git system for version storage.
