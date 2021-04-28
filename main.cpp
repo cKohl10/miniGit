@@ -3,8 +3,6 @@
 
 void menu();
 
-void status();
-
 int main()
 {
     string filename;
@@ -86,6 +84,3 @@ void menu()
     cout << "Select option : ";
 }
 
-void status(){
-    
-}

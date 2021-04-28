@@ -2,11 +2,6 @@
 
 using namespace std;
 
-/*
-Current version uses fs::copy_file() which is appearantly not allowed.
-The plan is to finish the code with this function and implement it 
-in our own funciton afterwards.
-*/
 
 // Issues : add file, then delete file, then add it back and it says its already been added, not sure if there is way to fix that
 // adding files then deleting them then trying to commit changes
@@ -334,22 +329,4 @@ int Master::commit()
 
     if (!numChanges) return -1;
     return commitHead->previous->commitNumber;
-}
-
-void Master::status() //prints status of the repository
-{
-    doublyNode* currDoubleNode = commitHead; //create two pointers to help print
-    while(currDoubleNode != NULL)
-    {
-        cout << "Current commit number: " << currDoubleNode->commitNumber << endl; //print the most current commit
-        singlyNode* currSingleNode = commitHead->head; //assign pointer to current commit head
-        while (currSingleNode != NULL) //if there are files in the commit
-        {
-            cout << "Current files in commit: "; //print all of them
-            cout << currSingleNode->fileName << " ";
-            currSingleNode = currSingleNode->next;
-        }
-        currDoubleNode = currDoubleNode->previous; //go to previous commit to print all commits in repoistory
-
-    }
 }

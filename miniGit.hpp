@@ -37,7 +37,6 @@ class Master{
         void checkout(int commitNumber);
         int commit();
         void add(string filename);
-        void status();
 };
 
 #endif
