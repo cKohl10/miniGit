@@ -20,6 +20,11 @@ int main()
     cout << "Create an new repository in the current directory? (y/n)" << endl;
     cin >> beginOption;
     if (beginOption == "y" || beginOption == "Y") master.init();
+    else{
+        cout << "Yeah... that's a stupid choice in respect to this project" << endl;
+        cout << "Unless you exited out our program, you should not already have a .minigit directory" << endl;
+        return 0;
+    }
 
 
     while(option != 5)
