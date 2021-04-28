@@ -95,7 +95,7 @@ void Master::add(string filename) //need to add a pointer to
     return;
     //--------------------------------------------------------------------------------
 }
-void Master::remove(string filename)
+bool Master::remove(string filename)
 {
     singlyNode* ptrToDelete = commitHead->head; //pointer to traverse is equal to the head of the singly linked list
     singlyNode* prev = NULL;
@@ -120,8 +120,10 @@ void Master::remove(string filename)
         }
 
         delete ptrToDelete;
+        return true;
     }
-    cout << "File successfully removed." << endl;
+    return false;
+
 }
 void Master::checkout(int commitNumber)
 {
@@ -255,7 +257,7 @@ int Master::commit()
     if(commitHead->head == NULL)
     {
         cout << "No Files to commit." << endl;
-        return;
+        return -1;
     }
     int numChanges = 0;
 
