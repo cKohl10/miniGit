@@ -8,55 +8,60 @@ int main()
     string filename;
     string beginOption;
     int commitNum;
-    int option = 0;
+    int commitNumOut;
+
+    //Option changed to char to fix an infinit loop error
+    char option = '0';
+
+    //Initialize repository
+    Master master;
 
     //Will ask if the user wants to create a new repostory in current directory
     cout << "Create an new repository in the current directory? (y/n)" << endl;
     cin >> beginOption;
-    if (beginOption != "y" || beginOption != "Y") return 0;
+    if (beginOption == "y" || beginOption == "Y") master.init();
 
-    //Initialize repository
-    Master master;
-    master.init();
 
     while(option != 5)
     {
         menu();
 
         cin >> option;
-
-        switch (option)
-        {
-        case 1:
+        if (!isdigit(option)) option = '6';
+        switch (option){
+        case '1':
             cout << "Enter filename to be committed: ";
             cin >> filename;
             // call function to add file to repository
             master.add(filename);
             break;
 
-        case 2:
+        case '2':
             cout << "Enter filename to be removed from current commit: ";
             cin >> filename;
             master.remove(filename);
             break;
 
-        case 3:
+        case '3':
             //function to commit changes
-            if (master.commit()){
-                cout << "Changes successfully committed" << endl;
-            } else cout << "Commit unsuccessful" << endl;
+            commitNumOut = master.commit();
+            if (commitNumOut >= 0){
+                cout << "Changes successfully committed: Commit #" << commitNumOut << endl;
+            } else cout << "Commit unsuccessful - Commit may be identical to previous commit" << endl;
             // probably need to print out commit number 
             break;
 
-        case 4:
+        case '4':
             cout << "Enter commit number: ";
             cin >> commitNum;
-            //call function to view version for specific commit number
+            master.checkout(commitNum);
             break;
 
-        case 5:
+        case '5':
             // probably need to make sure all changes are commited before quitting.
             cout << "Goodbye!" << endl;
+            fs::remove_all(".minigit");
+            return 0;
             break;
         
         default:
@@ -78,3 +83,4 @@ void menu()
     cout << "5. Quit" << endl;
     cout << "Select option : ";
 }
+

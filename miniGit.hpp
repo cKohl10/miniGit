@@ -4,6 +4,8 @@
 #include <iostream>
 #include <filesystem>
 namespace fs = std::filesystem;
+#include <fstream>
+#include <string>
 using namespace std;
 
 struct singlyNode{
@@ -14,6 +16,7 @@ struct singlyNode{
 
 struct doublyNode
 {
+    string message;
     int commitNumber;
     singlyNode * head;
     doublyNode * previous;
@@ -22,7 +25,7 @@ struct doublyNode
 
 class Master{
     private:
-        doublyNode* commitHead;
+        doublyNode* commitHead; //current directory
 
     public: 
         //The folowing functions are just shells
