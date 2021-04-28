@@ -175,6 +175,7 @@ string file2string(string filename){
     while (file_r >> word){
         line = line + word;
     }
+    cout << "file2string of filename: " << line << endl;  
     return line;
 }
 
@@ -251,7 +252,7 @@ int Master::commit()
             //If it does not exists, make a copy in the correct directory
             if(fileCopy(currNode->fileName, file2find)){
                 cout << "Copied file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " succesfully" << endl;
-                currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
+                //currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
             } else {
                 cout << "Failed to copy " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << endl;
             }
