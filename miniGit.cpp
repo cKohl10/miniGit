@@ -121,7 +121,7 @@ void Master::remove(string filename)
 
         delete ptrToDelete;
     }
-
+    cout << "File successfully removed." << endl;
 }
 void Master::checkout(int commitNumber)
 {
