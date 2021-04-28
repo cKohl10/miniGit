@@ -24,6 +24,7 @@ Master::Master()
 {
     doublyNode* commitInit = new doublyNode;
     commitHead = commitInit;
+    commitInit->commitNumber = 1;
     commitInit->head = NULL;
     commitInit->next = NULL;
     commitInit->previous = NULL;
@@ -196,7 +197,7 @@ string file2string(string filename){
     while (file_r >> word){
         line = line + word;
     }
-    cout << "file2string of filename: " << line << endl;  
+    cout << "file2string of "  << filename << ": " << line << endl;  
     return line;
 }
 
@@ -266,9 +267,10 @@ int Master::commit()
     while (currNode != NULL){
         //Construct the fileName to find
         string file2find = filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, true);
+        string originalFile = filenameConvert(".minigit/", currNode->fileName, "0", true);
 
         //Check if file version exists already
-        if (!fs::exists(file2find)){
+        if (!fs::exists(originalFile)){
 
             //If it does not exists, make a copy in the correct directory
             if(fileCopy(currNode->fileName, file2find)){
@@ -285,6 +287,7 @@ int Master::commit()
                 
                 //If the file was changed, increment version number
                 currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
+                file2find = filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, true);
                 if(fileCopy(currNode->fileName, file2find)){
                     cout << "Created file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " succesfully" << endl;
                 } else {
@@ -340,7 +343,7 @@ int Master::commit()
     }
 
     if (!numChanges) return -1;
-    return commitHead->commitNumber;
+    return commitHead->previous->commitNumber;
 }
 
 void Master::status() //prints status of the repository
