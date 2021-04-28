@@ -15,6 +15,11 @@ in our own funciton afterwards.
 // and dont know how to have doubly nodes stay between times you run it so it seems like we might only have one doublyNode.
 // for add seems like the version history needs to update and not alwasy be "0"
 
+string file2string(string filename);
+bool wasChanged(string f1, string f2);
+string filenameConvert(string header, string filename, string fileVersion, bool showHeader);
+bool fileCopy(string source, string dest);
+
 Master::Master()
 {
     doublyNode* commitInit = new doublyNode;
@@ -135,6 +140,7 @@ void Master::checkout(int commitNumber)
     doublyNode* ptrToCommit = commitHead;
     while (ptrToCommit != NULL) //while loop to find the commit
     {
+        cout << "commit #" << ptrToCommit->commitNumber << " traversed" << endl;
         if(ptrToCommit->commitNumber == commitNumber)
         {
             cout << "Found commit" << endl;
@@ -152,18 +158,33 @@ void Master::checkout(int commitNumber)
     char option;
     cin >> option;
     cout << endl;
-    if (option == 'y' || 'Y')
-    {
-        commitHead->next = ptrToCommit; //makes the top point to the checkout commit
-        ptrToCommit->previous = commitHead; //doubly links it
-        ptrToCommit->next = NULL;
-        commitHead = ptrToCommit; //make the new commit head our checkout commit
-        cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
+
+    //NOR gate that will return if not 'y' or 'Y'
+    if (!(option == 'y' || option == 'Y')) return;
+
+    commitHead->next = ptrToCommit; //makes the top point to the checkout commit
+    ptrToCommit->previous = commitHead; //doubly links it
+    ptrToCommit->next = NULL;
+    commitHead = ptrToCommit; //make the new commit head our checkout commit
+
+    //Traverse every SLL node
+    singlyNode* currNode = commitHead->head;
+    while (currNode != NULL){
+        //Construct the fileName to find
+        string file2Copy = filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, true);
+
+        //Copy what is in the commit verion of the file into the original file
+        if(fileCopy(file2Copy, currNode->fileName)){
+            cout << "Copied file " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " to " << currNode->fileName << " succesfully" << endl;
+            currNode->fileVersion = to_string(stoi(currNode->fileVersion) + 1);
+        } else {
+            cout << "Failed to copy " << filenameConvert(".minigit/", currNode->fileName, currNode->fileVersion, false) << " to " << currNode->fileName << endl;
+        }
+        currNode = currNode->next;
+
     }
-    else
-    {
-        return; //if they don't want to continue then return
-    }
+
+    //cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
 
 }
 
