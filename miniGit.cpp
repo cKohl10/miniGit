@@ -105,10 +105,6 @@ void Master::remove(string filename)
     singlyNode* ptrToDelete = commitHead->head; //pointer to traverse is equal to the head of the singly linked list
     singlyNode* prev = NULL;
     bool found = false;
-
-    cout << "Head : " << ptrToDelete->fileName << endl;
-
-    cout << "1" << endl;
     
     while (ptrToDelete != NULL)
     {
@@ -121,8 +117,6 @@ void Master::remove(string filename)
         ptrToDelete = ptrToDelete->next;
     }
 
-    cout << "2" << endl;
-
     if (found == true) //if the file has been found
     {
         if(prev != NULL)
@@ -132,8 +126,6 @@ void Master::remove(string filename)
 
         delete ptrToDelete;
     }
-    
-    cout << "3" << endl;
 
 }
 void Master::checkout(int commitNumber)
@@ -141,7 +133,6 @@ void Master::checkout(int commitNumber)
     doublyNode* ptrToCommit = commitHead;
     while (ptrToCommit != NULL) //while loop to find the commit
     {
-        cout << "commit #" << ptrToCommit->commitNumber << " traversed" << endl;
         if(ptrToCommit->commitNumber == commitNumber)
         {
             cout << "Found commit" << endl;
@@ -185,7 +176,7 @@ void Master::checkout(int commitNumber)
 
     }
 
-    //cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
+    cout << "You have successfully checked out to commit number " << ptrToCommit->commitNumber << endl;
 
 }
 
@@ -197,7 +188,6 @@ string file2string(string filename){
     while (file_r >> word){
         line = line + word;
     }
-    cout << "file2string of "  << filename << ": " << line << endl;  
     return line;
 }
 
