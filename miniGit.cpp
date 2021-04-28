@@ -125,6 +125,11 @@ void Master::remove(string filename)
 }
 void Master::checkout(int commitNumber)
 {
+    if(commitNumber == 0)
+    {
+        cout << "Invalid commit number." << endl;
+        return;
+    }
     doublyNode* ptrToCommit = commitHead;
     while (ptrToCommit != NULL) //while loop to find the commit
     {
@@ -247,6 +252,11 @@ bool fileCopy(string source, string dest){
 
 int Master::commit()
 {  
+    if(commitHead->head == NULL)
+    {
+        cout << "No Files to commit." << endl;
+        return;
+    }
     int numChanges = 0;
 
     //Traverse every SLL node

@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <filesystem>
-namespace fs = std::filesystem;
 #include <fstream>
 #include <string>
 using namespace std;
+namespace fs = filesystem;
 
 struct singlyNode{
     string fileName;
@@ -33,10 +33,10 @@ class Master{
         Master();
         ~Master();
         void init();
+        void remove(string filename);
+        void checkout(int commitNumber);
+        int commit();
         void add(string filename);
-        void remove(string fileame);
-        void checkout();
-        void commit();
 };
 
 #endif
