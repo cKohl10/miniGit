@@ -19,12 +19,16 @@ int main()
     //Will ask if the user wants to create a new repostory in current directory
     cout << "Create an new repository in the current directory? (y/n)" << endl;
     cin >> beginOption;
+<<<<<<< HEAD
+    if (beginOption == "y" || beginOption == "Y") master.init(); //creates new directory
+=======
     if (beginOption == "y" || beginOption == "Y") master.init();
     else{
         cout << "Yeah... that's a stupid choice in respect to this project" << endl;
         cout << "Unless you exited out our program, you should not already have a .minigit directory" << endl;
         return 0;
     }
+>>>>>>> b945ac68fd0940e07771622fd41f971b6882db9d
 
 
     while(option != 5)
@@ -60,7 +64,7 @@ int main()
         case '4':
             cout << "Enter commit number: ";
             cin >> commitNum;
-            master.checkout(commitNum);
+            master.checkout(commitNum); //returns to previous DL node with commit number parameter
             break;
 
         case '5':
