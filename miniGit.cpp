@@ -2,14 +2,6 @@
 
 using namespace std;
 
-
-// Issues : add file, then delete file, then add it back and it says its already been added, not sure if there is way to fix that
-// adding files then deleting them then trying to commit changes
-// checkout to go to different file version then removing file is seg fault
-// checkout doesnt do very much either, should probably have an option to print out file names after you switch commit 
-// and dont know how to have doubly nodes stay between times you run it so it seems like we might only have one doublyNode.
-// for add seems like the version history needs to update and not alwasy be "0"
-
 string file2string(string filename);
 bool wasChanged(string f1, string f2);
 string filenameConvert(string header, string filename, string fileVersion, bool showHeader);
@@ -117,6 +109,8 @@ bool Master::remove(string filename)
         if(prev != NULL)
         {
             prev->next = ptrToDelete->next;
+        } else {
+            commitHead->head = ptrToDelete->next;
         }
 
         delete ptrToDelete;
