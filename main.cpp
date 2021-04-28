@@ -39,7 +39,8 @@ int main()
         case '2':
             cout << "Enter filename to be removed from current commit: ";
             cin >> filename;
-            master.remove(filename);
+            if (master.remove(filename)) cout << "File successfully removed" << endl;
+            else cout << "File was not found" << endl;
             break;
 
         case '3':

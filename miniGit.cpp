@@ -257,7 +257,7 @@ int Master::commit()
     if(commitHead->head == NULL)
     {
         cout << "No Files to commit." << endl;
-        return;
+        return -1;
     }
     int numChanges = 0;
 
